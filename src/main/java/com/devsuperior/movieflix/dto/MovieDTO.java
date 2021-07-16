@@ -1,34 +1,26 @@
-package com.devsuperior.movieflix.entities;
+package com.devsuperior.movieflix.dto;
 
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import com.devsuperior.movieflix.entities.Movie;
 
-@Entity
-@Table(name = "tb_movie")
-public class Movie {
+public class MovieDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String title;
-
     private String subTitle;
-
     private Integer year;
-
     private String imgUrl;
-
-    @Column(length = 1000)
     private String synopsis;
+    private GenreDTO genre;
 
-    @ManyToOne
-    @JoinColumn(name = "genre_id")
-    private Genre genre;
-
-    @OneToMany(mappedBy = "movie")
-    private List<Review> reviews = new ArrayList<>();
+    public MovieDTO(Movie movie) {
+        this.id = movie.getId();
+        this.title = movie.getTitle();
+        this.subTitle = movie.getSubTitle();
+        this.year = movie.getYear();
+        this.imgUrl = movie.getImgUrl();
+        this.synopsis = movie.getSynopsis();
+        this.genre = new GenreDTO(movie.getGenre());
+    }
 
     public Long getId() {
         return id;
@@ -78,20 +70,11 @@ public class Movie {
         this.synopsis = synopsis;
     }
 
-    public Genre getGenre() {
+    public GenreDTO getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(GenreDTO genre) {
         this.genre = genre;
     }
-
-    public List<Review> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
-    }
-
 }
